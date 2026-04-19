@@ -1,0 +1,27 @@
+{
+  "name": "hockeyplayoffs",
+  "version": "1.0.0",
+  "description": "2026 NHL Playoff Bracket Picker",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "server": "node server.js",
+    "start": "node server.js & vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "keywords": ["hockey", "nhl", "playoffs", "bracket"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
+    "react-router-dom": "^7.14.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.0.1",
+    "vite": "^8.0.8"
+  }
+}

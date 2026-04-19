@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1776561644831,
+    "name": "Sarah",
+    "picks": {
+      "e1": "Boston Bruins",
+      "e2": "Montreal Canadiens",
+      "e3": "Ottawa Senators",
+      "e4": "Pittsburgh Penguins",
+      "w1": "Los Angeles Kings",
+      "w2": "Minnesota Wild",
+      "w3": "Utah Mammoth",
+      "w4": "Edmonton Oilers",
+      "eSemi1": "Boston Bruins",
+      "eSemi2": "Pittsburgh Penguins",
+      "wSemi1": "Los Angeles Kings",
+      "wSemi2": "Edmonton Oilers",
+      "eastFinal": "Pittsburgh Penguins",
+      "westFinal": "Los Angeles Kings",
+      "champion": "Los Angeles Kings"
+    },
+    "createdAt": "2026-04-19T01:20:44.817Z"
+  }
+]
