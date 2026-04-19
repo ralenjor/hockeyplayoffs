@@ -1,10 +1,5 @@
 import { Redis } from '@upstash/redis'
 
-const redis = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN,
-})
-
 const BRACKETS_KEY = 'nhl_brackets'
 
 export default async function handler(req, res) {
@@ -16,6 +11,17 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') {
     return res.status(200).end()
   }
+
+  // Check for required environment variables
+  if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) {
+    console.error('Missing KV_REST_API_URL or KV_REST_API_TOKEN environment variables')
+    return res.status(500).json({ error: 'Database not configured' })
+  }
+
+  const redis = new Redis({
+    url: process.env.KV_REST_API_URL,
+    token: process.env.KV_REST_API_TOKEN,
+  })
 
   try {
     if (req.method === 'GET') {
