@@ -5,7 +5,7 @@ const BRACKETS_KEY = 'nhl_brackets'
 export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
 
   if (req.method === 'OPTIONS') {
@@ -48,6 +48,30 @@ export default async function handler(req, res) {
       await redis.set(BRACKETS_KEY, brackets)
 
       return res.status(201).json(newBracket)
+    }
+
+    if (req.method === 'DELETE') {
+      const { id } = req.query
+
+      if (!id) {
+        return res.status(400).json({ error: 'Bracket ID is required' })
+      }
+
+      // Get existing brackets
+      const brackets = await redis.get(BRACKETS_KEY) || []
+
+      // Find and remove the bracket with matching ID
+      const bracketId = parseInt(id, 10)
+      const filteredBrackets = brackets.filter(b => b.id !== bracketId)
+
+      if (filteredBrackets.length === brackets.length) {
+        return res.status(404).json({ error: 'Bracket not found' })
+      }
+
+      // Save filtered brackets back to Redis
+      await redis.set(BRACKETS_KEY, filteredBrackets)
+
+      return res.status(200).json({ message: 'Bracket deleted successfully' })
     }
 
     return res.status(405).json({ error: 'Method not allowed' })

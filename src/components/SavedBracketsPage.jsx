@@ -25,6 +25,26 @@ function SavedBracketsPage() {
     }
   }
 
+  const handleDelete = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this bracket?')) {
+      return
+    }
+
+    try {
+      const response = await fetch(`/api/brackets?id=${id}`, {
+        method: 'DELETE'
+      })
+
+      if (response.ok) {
+        setBrackets(prev => prev.filter(b => b.id !== id))
+      } else {
+        throw new Error('Failed to delete')
+      }
+    } catch (err) {
+      alert('Failed to delete bracket. Please try again.')
+    }
+  }
+
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -74,8 +94,17 @@ function SavedBracketsPage() {
           {brackets.map((bracket, index) => (
             <div key={index} className="bracket-card">
               <div className="bracket-card-header">
-                <h3>{bracket.name}</h3>
-                <span>{formatDate(bracket.createdAt)}</span>
+                <div className="bracket-card-title">
+                  <h3>{bracket.name}</h3>
+                  <span>{formatDate(bracket.createdAt)}</span>
+                </div>
+                <button
+                  className="delete-button"
+                  onClick={() => handleDelete(bracket.id)}
+                  title="Delete this bracket"
+                >
+                  ✕
+                </button>
               </div>
 
               <div className="bracket-picks">

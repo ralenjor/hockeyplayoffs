@@ -59,6 +59,35 @@ app.post('/api/brackets', async (req, res) => {
   }
 })
 
+// Delete a bracket
+app.delete('/api/brackets', async (req, res) => {
+  try {
+    const { id } = req.query
+
+    if (!id) {
+      return res.status(400).json({ error: 'Bracket ID is required' })
+    }
+
+    await initBracketsFile()
+    const data = await readFile(BRACKETS_FILE, 'utf-8')
+    const brackets = JSON.parse(data)
+
+    const bracketId = parseInt(id, 10)
+    const filteredBrackets = brackets.filter(b => b.id !== bracketId)
+
+    if (filteredBrackets.length === brackets.length) {
+      return res.status(404).json({ error: 'Bracket not found' })
+    }
+
+    await writeFile(BRACKETS_FILE, JSON.stringify(filteredBrackets, null, 2))
+
+    res.status(200).json({ message: 'Bracket deleted successfully' })
+  } catch (error) {
+    console.error('Error deleting bracket:', error)
+    res.status(500).json({ error: 'Failed to delete bracket' })
+  }
+})
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`)
 })
