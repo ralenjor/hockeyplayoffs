@@ -11,6 +11,8 @@ const __dirname = dirname(__filename)
 const app = express()
 const PORT = 3001
 const BRACKETS_FILE = join(__dirname, 'brackets.json')
+const RESULTS_FILE = join(__dirname, 'results.json')
+const ADMIN_PASSWORD = 'playoff2026'
 
 app.use(cors())
 app.use(express.json())
@@ -19,6 +21,13 @@ app.use(express.json())
 async function initBracketsFile() {
   if (!existsSync(BRACKETS_FILE)) {
     await writeFile(BRACKETS_FILE, JSON.stringify([], null, 2))
+  }
+}
+
+// Initialize results file if it doesn't exist
+async function initResultsFile() {
+  if (!existsSync(RESULTS_FILE)) {
+    await writeFile(RESULTS_FILE, JSON.stringify({}, null, 2))
   }
 }
 
@@ -85,6 +94,36 @@ app.delete('/api/brackets', async (req, res) => {
   } catch (error) {
     console.error('Error deleting bracket:', error)
     res.status(500).json({ error: 'Failed to delete bracket' })
+  }
+})
+
+// Get results
+app.get('/api/results', async (req, res) => {
+  try {
+    await initResultsFile()
+    const data = await readFile(RESULTS_FILE, 'utf-8')
+    const results = JSON.parse(data)
+    res.json(results)
+  } catch (error) {
+    console.error('Error reading results:', error)
+    res.status(500).json({ error: 'Failed to read results' })
+  }
+})
+
+// Save results (admin only)
+app.post('/api/results', async (req, res) => {
+  try {
+    const password = req.headers['x-admin-password']
+
+    if (password !== ADMIN_PASSWORD) {
+      return res.status(401).json({ error: 'Invalid admin password' })
+    }
+
+    await writeFile(RESULTS_FILE, JSON.stringify(req.body, null, 2))
+    res.json({ message: 'Results saved successfully' })
+  } catch (error) {
+    console.error('Error saving results:', error)
+    res.status(500).json({ error: 'Failed to save results' })
   }
 })
 

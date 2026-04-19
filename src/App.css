@@ -506,6 +506,255 @@ main {
   color: var(--silver);
 }
 
+/* Admin Page */
+.admin-page {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.admin-login {
+  max-width: 400px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.admin-login h2 {
+  font-family: 'Oswald', sans-serif;
+  color: var(--ice-blue);
+  margin-bottom: 1.5rem;
+}
+
+.admin-login form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.admin-header h2 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.8rem;
+  color: var(--ice-blue);
+  text-transform: uppercase;
+}
+
+.logout-button {
+  padding: 0.5rem 1.5rem;
+  background: transparent;
+  color: var(--silver);
+  border: 1px solid var(--silver);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.logout-button:hover {
+  background: var(--silver);
+  color: var(--hockey-dark);
+}
+
+.scoring-info {
+  background: rgba(255, 215, 0, 0.1);
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+}
+
+.scoring-info h3 {
+  font-family: 'Oswald', sans-serif;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+
+.scoring-info ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.scoring-info li {
+  color: var(--ice-blue);
+  font-size: 0.9rem;
+}
+
+/* Scoring Display */
+.score-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(145deg, rgba(255, 215, 0, 0.2), rgba(255, 215, 0, 0.1));
+  border-radius: 8px;
+  border: 1px solid var(--gold);
+}
+
+.score-points {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.score-breakdown {
+  font-size: 0.8rem;
+  color: var(--silver);
+}
+
+.bracket-rank-name {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.rank {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gold);
+}
+
+.points-label {
+  font-size: 0.7rem;
+  color: var(--silver);
+  font-weight: normal;
+}
+
+/* Scoring Legend */
+.scoring-legend {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.legend-item::before {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+}
+
+.legend-item.correct::before {
+  background: #00c853;
+}
+
+.legend-item.incorrect::before {
+  background: #ff5252;
+}
+
+.legend-item.pending::before {
+  background: var(--silver);
+}
+
+/* Pick Status Colors */
+.pick-section li.correct {
+  color: #00c853;
+  position: relative;
+  padding-left: 1rem;
+}
+
+.pick-section li.correct::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  background: #00c853;
+  border-radius: 50%;
+}
+
+.pick-section li.incorrect {
+  color: #ff5252;
+  text-decoration: line-through;
+  position: relative;
+  padding-left: 1rem;
+}
+
+.pick-section li.incorrect::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  background: #ff5252;
+  border-radius: 50%;
+}
+
+.pick-section li.pending {
+  color: var(--silver);
+  position: relative;
+  padding-left: 1rem;
+}
+
+.pick-section li.pending::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 6px;
+  background: var(--silver);
+  border-radius: 50%;
+}
+
+/* Champion Pick Status */
+.champion-pick.correct {
+  background: linear-gradient(145deg, rgba(0, 200, 83, 0.2), rgba(0, 200, 83, 0.1));
+  border-color: #00c853;
+}
+
+.champion-pick.correct h4,
+.champion-pick.correct p {
+  color: #00c853;
+}
+
+.champion-pick.incorrect {
+  background: linear-gradient(145deg, rgba(255, 82, 82, 0.2), rgba(255, 82, 82, 0.1));
+  border-color: #ff5252;
+}
+
+.champion-pick.incorrect h4,
+.champion-pick.incorrect p {
+  color: #ff5252;
+  text-decoration: line-through;
+}
+
+.champion-pick.pending {
+  background: linear-gradient(145deg, rgba(192, 192, 192, 0.1), rgba(192, 192, 192, 0.05));
+  border-color: var(--silver);
+}
+
+.champion-pick.pending h4,
+.champion-pick.pending p {
+  color: var(--silver);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .header-content {
