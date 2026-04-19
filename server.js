@@ -68,9 +68,15 @@ app.post('/api/brackets', async (req, res) => {
   }
 })
 
-// Delete a bracket
+// Delete a bracket (admin only)
 app.delete('/api/brackets', async (req, res) => {
   try {
+    // Check admin password
+    const password = req.headers['x-admin-password']
+    if (password !== ADMIN_PASSWORD) {
+      return res.status(401).json({ error: 'Admin authentication required' })
+    }
+
     const { id } = req.query
 
     if (!id) {

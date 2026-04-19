@@ -18,8 +18,12 @@ function SavedBracketsPage() {
   const [results, setResults] = useState({})
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [isAdmin, setIsAdmin] = useState(false)
 
   useEffect(() => {
+    // Check if user is authenticated as admin
+    const adminAuth = localStorage.getItem('adminAuth')
+    setIsAdmin(adminAuth === 'playoff2026')
     fetchData()
   }, [])
 
@@ -53,13 +57,21 @@ function SavedBracketsPage() {
       return
     }
 
+    const adminAuth = localStorage.getItem('adminAuth')
+
     try {
       const response = await fetch(`/api/brackets?id=${id}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: {
+          'X-Admin-Password': adminAuth
+        }
       })
 
       if (response.ok) {
         setBrackets(prev => prev.filter(b => b.id !== id))
+      } else if (response.status === 401) {
+        alert('Admin authentication required to delete brackets.')
+        setIsAdmin(false)
       } else {
         throw new Error('Failed to delete')
       }
@@ -196,13 +208,15 @@ function SavedBracketsPage() {
                       </span>
                     </div>
                   )}
-                  <button
-                    className="delete-button"
-                    onClick={() => handleDelete(bracket.id)}
-                    title="Delete this bracket"
-                  >
-                    ✕
-                  </button>
+                  {isAdmin && (
+                    <button
+                      className="delete-button"
+                      onClick={() => handleDelete(bracket.id)}
+                      title="Delete this bracket"
+                    >
+                      ✕
+                    </button>
+                  )}
                 </div>
 
                 <div className="bracket-picks">

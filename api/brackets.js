@@ -1,12 +1,13 @@
 import { Redis } from '@upstash/redis'
 
 const BRACKETS_KEY = 'nhl_brackets'
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'playoff2026'
 
 export default async function handler(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS')
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Admin-Password')
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end()
@@ -51,6 +52,12 @@ export default async function handler(req, res) {
     }
 
     if (req.method === 'DELETE') {
+      // Check admin password
+      const password = req.headers['x-admin-password']
+      if (password !== ADMIN_PASSWORD) {
+        return res.status(401).json({ error: 'Admin authentication required' })
+      }
+
       const { id } = req.query
 
       if (!id) {
